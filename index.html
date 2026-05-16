@@ -180,6 +180,7 @@
         position: absolute;
         inset: auto 0 0;
         height: 34%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff);
         pointer-events: none;
       }
 
@@ -194,6 +195,7 @@
         position: relative;
         z-index: 2;
         max-width: 750px;
+        margin-left: auto;
       }
 
       .eyebrow {
@@ -296,15 +298,13 @@
 
       .interface-preview {
         position: absolute;
-        right: -24px;
+        left: -24px;
         top: 40px;
         width: min(20vw, 520px);
         height: 570px;
         pointer-events: none;
       }
-.hero-copy {
-  margin-left: auto;
-}
+
       .hero-portrait {
         z-index: 1;
       }
@@ -313,7 +313,6 @@
         position: absolute;
         overflow: hidden;
         border-radius: var(--radius);
-    
       }
 
       .portrait-shell img {
@@ -324,8 +323,38 @@
         transform: scale(1.03);
       }
 
-
-
+      .portrait-shell::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background:
+          /* links */
+          linear-gradient(
+            90deg,
+            rgba(255,255,255,0.18) 0%,
+            rgba(255,255,255,0) 14%
+          ),
+          /* rechts */
+          linear-gradient(
+            270deg,
+            rgba(255,255,255,0.18) 0%,
+            rgba(255,255,255,0) 14%
+          ),
+          /* boven */
+          linear-gradient(
+            180deg,
+            rgba(255,255,255,0.14) 0%,
+            rgba(255,255,255,0) 12%
+          ),
+          /* onder */
+          linear-gradient(
+            0deg,
+            rgba(255,255,255,0.16) 0%,
+            rgba(255,255,255,0) 14%
+          );
+      }
 
       .floating-panel {
         position: absolute;
@@ -998,30 +1027,38 @@
 
       .modal-dialog {
         position: relative;
-        width: min(1120px, 100%);
-        max-height: min(780px, calc(100vh - 48px));
+        z-index: 2;
+        width: 100%;
+        max-width: 620px;
+        max-height: 90vh;
         border: 1px solid var(--line);
         border-radius: var(--radius);
         background: var(--surface);
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.18);
-        overflow: auto;
+        box-shadow: 0 28px 68px rgba(0, 0, 0, 0.18);
+        display: flex;
+        flex-direction: column;
       }
 
       .modal-close {
-        position: sticky;
-        top: 16px;
-        left: calc(100% - 58px);
-        z-index: 5;
-        width: 40px;
-        height: 40px;
-        margin: 16px 16px -56px auto;
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 3;
+        width: 32px;
+        height: 32px;
         border: 1px solid var(--line);
         border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.84);
+        cursor: pointer;
         display: grid;
         place-items: center;
-        background: rgba(255, 255, 255, 0.9);
         color: var(--ink);
-        cursor: pointer;
+        transition: background 180ms ease;
+      }
+
+      .modal-close:hover,
+      .modal-close:focus-visible {
+        background: #ffffff;
       }
 
       .modal-close svg {
@@ -1029,1272 +1066,602 @@
         height: 18px;
       }
 
-      .modal-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1.38fr) minmax(280px, 0.62fr);
-        gap: 28px;
+      .modal-content {
+        overflow-y: auto;
+        flex: 1;
         padding: 28px;
       }
 
       .modal-gallery {
-        min-width: 0;
-      }
-
-      .modal-image-frame {
         position: relative;
-        aspect-ratio: 16 / 10;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
+        aspect-ratio: 16 / 9;
+        margin: -28px -28px 24px;
+        border-radius: var(--radius) var(--radius) 0 0;
         background: var(--soft);
         overflow: hidden;
       }
 
-      .modal-image {
-        width: 100%;
+      .modal-gallery .gallery-track {
         height: 100%;
-        object-fit: contain;
-        background: #f5f5f5;
       }
 
-      .modal-caption {
-        margin: 12px 0 0;
-        color: var(--muted);
-        font-size: 0.92rem;
-        font-weight: 700;
+      .modal-gallery .gallery-button {
+        width: 40px;
+        height: 40px;
       }
 
-      .modal-nav {
-        position: absolute;
-        top: 50%;
-        width: 42px;
-        height: 42px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        display: grid;
-        place-items: center;
-        background: rgba(255, 255, 255, 0.88);
-        color: var(--ink);
-        cursor: pointer;
-        transform: translateY(-50%);
+      .modal-gallery .gallery-button svg {
+        width: 20px;
+        height: 20px;
       }
 
-      .modal-nav svg {
-        width: 19px;
-        height: 19px;
-      }
-
-      .modal-prev {
+      .modal-gallery .gallery-prev {
         left: 14px;
       }
 
-      .modal-next {
+      .modal-gallery .gallery-next {
         right: 14px;
       }
 
-      .modal-thumbs {
-        display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        gap: 8px;
-        margin-top: 12px;
+      .modal-gallery .gallery-dots {
+        bottom: 14px;
       }
 
-      .modal-thumb {
-        aspect-ratio: 16 / 10;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 0;
-        background: var(--soft);
-        overflow: hidden;
-        cursor: pointer;
-        opacity: 0.58;
-        transition: opacity 180ms ease, border-color 180ms ease;
+      .modal-gallery .gallery-dots span {
+        width: 8px;
+        height: 8px;
       }
 
-      .modal-thumb.is-active {
-        border-color: var(--ink);
-        opacity: 1;
+      .modal-gallery .gallery-dots span.is-active {
+        width: 20px;
       }
 
-      .modal-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .modal-header {
+        margin-bottom: 12px;
       }
 
-      .modal-content {
-        padding-top: 44px;
+      .modal-header h2 {
+        margin-bottom: 6px;
+        font-size: 1.82rem;
       }
 
       .modal-meta {
-        margin-bottom: 10px;
         color: var(--muted);
-        font-size: 0.92rem;
-        font-weight: 800;
-      }
-
-      .modal-title {
-        margin-bottom: 14px;
-        font-size: 2rem;
-        line-height: 1.08;
+        font-size: 0.88rem;
+        font-weight: 700;
       }
 
       .modal-description {
+        margin: 18px 0 24px;
         color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
 
-      .modal-points {
+      .modal-features {
+        margin-bottom: 24px;
+      }
+
+      .modal-features strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.92rem;
+      }
+
+      .modal-features ul {
         display: grid;
-        gap: 9px;
-        margin: 20px 0 0;
+        gap: 6px;
+        margin: 0;
         padding-left: 18px;
         color: var(--muted);
+        font-size: 0.9rem;
       }
 
-      .education-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.48fr);
-        gap: 24px;
+      .modal-actions {
+        display: flex;
+        gap: 10px;
       }
 
-      .timeline {
-        display: grid;
-        gap: 14px;
-      }
-
-      .timeline-item {
-        display: grid;
-        grid-template-columns: 138px minmax(0, 1fr);
-        gap: 22px;
-        padding: 22px;
-      }
-
-      .timeline-date {
-        color: var(--teal);
-        font-weight: 800;
-      }
-
-      .language-panel {
+      .modal-action {
+        flex: 1;
+        min-height: 42px;
         border: 1px solid var(--line);
         border-radius: var(--radius);
-        background: var(--surface);
-        padding: 22px;
-        box-shadow: 0 14px 42px rgba(35, 45, 70, 0.06);
-      }
-
-      .language-list {
-        display: grid;
-        gap: 16px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      .language-row {
-        display: grid;
-        gap: 7px;
-      }
-
-      .language-top {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        color: var(--muted);
-        font-size: 0.94rem;
-      }
-
-      .language-top strong {
-        color: var(--ink);
-      }
-
-      .language-bar {
-        height: 8px;
-        border-radius: 999px;
-        background: var(--soft);
-        overflow: hidden;
-      }
-
-      .language-fill {
-        display: block;
-        height: 100%;
-        border-radius: inherit;
-        background: var(--teal);
-      }
-
-      .language-fill.good {
-        width: 88%;
-        background: var(--violet);
-      }
-
-      .language-fill.basic {
-        width: 38%;
-        background: var(--coral);
-      }
-
-      .language-fill.native {
-        width: 100%;
-      }
-
-      .contact-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 0.84fr) minmax(300px, 0.55fr);
-        gap: 28px;
-        align-items: stretch;
-      }
-
-      .contact-lede {
-        max-width: 690px;
-        color: var(--muted);
-        font-size: 1.1rem;
-      }
-
-      .contact-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 26px;
-      }
-
-      .contact-card {
-        padding: 24px;
-      }
-
-      .contact-list {
-        display: grid;
-        gap: 12px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      .contact-list > li > a,
-      .contact-list > li > span {
-        min-width: 0;
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        border-bottom: 1px solid var(--line);
-        padding: 10px 0;
-        color: var(--muted);
-        overflow-wrap: anywhere;
+        justify-content: center;
+        gap: 8px;
+        background: var(--ink);
+        color: #ffffff;
+        padding: 10px 14px;
+        font: inherit;
+        font-size: 0.92rem;
+        font-weight: 750;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease;
       }
 
-      .contact-list li:last-child > a,
-      .contact-list li:last-child > span {
-        border-bottom: 0;
+      .modal-action:hover,
+      .modal-action:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
       }
 
-      .contact-list strong {
+      .modal-action.secondary {
+        background: #ffffff;
         color: var(--ink);
-        white-space: nowrap;
       }
 
-      .site-footer {
-        padding: 26px 0;
-        color: var(--muted);
-        background: var(--surface);
-      }
-
-      .footer-inner {
-        width: min(var(--max), calc(100% - 40px));
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        gap: 18px;
-        flex-wrap: wrap;
-        font-size: 0.94rem;
-      }
-
-      .reveal {
-        opacity: 0;
-        transform: translateY(22px);
-        transition: opacity 650ms ease, transform 650ms ease;
-      }
-
-      .reveal.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .delay-1 {
-        transition-delay: 90ms;
-      }
-
-      .delay-2 {
-        transition-delay: 180ms;
-      }
-
-      .delay-3 {
-        transition-delay: 270ms;
+      .modal-action svg {
+        width: 16px;
+        height: 16px;
       }
 
       @keyframes floatPanel {
-        0%,
-        100% {
+        0%, 100% {
           transform: translateY(0);
         }
-
         50% {
-          transform: translateY(-14px);
+          transform: translateY(-20px);
         }
       }
 
-      @media (max-width: 980px) {
-        .hero h1 {
-          font-size: 3.35rem;
-        }
-
-   .interface-preview {
-  position: absolute;
-  left: -24px;
-  top: 40px;
-  width: min(20vw, 520px);
-  height: 570px;
-  pointer-events: none;
-}
-
-        .interface-preview.hero-portrait {
-          right: -150px;
-          top: 56px;
-          width: 520px;
-          height: 520px;
-          opacity: 0.34;
-        }
-
-        .section-heading,
-        .intro-grid,
-        .education-layout,
-        .contact-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .skills-grid,
-        .projects-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .modal-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .modal-content {
-          padding-top: 0;
-        }
-      }
-
-      @media (max-width: 760px) {
-        .nav {
-          width: min(100% - 28px, var(--max));
-          min-height: 64px;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .brand-text span {
-          display: none;
-        }
-
-        .hero {
-          min-height: auto;
-        }
-
+      @media (max-width: 920px) {
         .hero-layout {
-          width: min(100% - 28px, var(--max));
-          padding: 58px 0 56px;
-        }
-
-        .hero h1 {
-          font-size: 2.65rem;
-          line-height: 1.02;
-        }
-
-        .hero-lede {
-          font-size: 1.04rem;
+          display: flex;
+          flex-direction: column-reverse;
         }
 
         .interface-preview {
+          position: relative;
+          width: 100%;
+          height: 380px;
+          margin: 32px 0 0;
+          left: auto;
+          right: auto;
+        }
+
+        .portrait-shell {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .hero-copy {
+          max-width: 100%;
+          margin-left: 0;
+        }
+
+        .hero-facts {
+          margin-top: 18px;
+        }
+
+        .floating-panel {
           display: none;
         }
 
-        .interface-preview.hero-portrait {
-          position: relative;
-          right: auto;
-          top: auto;
-          display: block;
-          width: min(100%, 430px);
-          height: 440px;
-          margin-top: 34px;
-          opacity: 1;
+        .hero h1 {
+          font-size: 3.2rem;
         }
 
-        .portrait-shell::before {
-          background:
-            linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.58) 18%, rgba(255, 255, 255, 0) 46%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0) 62%, #ffffff 100%);
-        }
-
-        .achievement-strip {
-          grid-template-columns: 1fr;
-        }
-
-        .section {
-          padding: 64px 0;
-        }
-
-        .section-inner {
-          width: min(100% - 28px, var(--max));
-        }
-
-        h2 {
-          font-size: 2rem;
-        }
-
-        .skills-grid,
         .projects-grid {
           grid-template-columns: 1fr;
         }
 
-        .timeline-item {
+        .section-heading {
           grid-template-columns: 1fr;
-          gap: 8px;
+          gap: 24px;
+          align-items: start;
         }
 
-        .button {
-          width: 100%;
+        .skills-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .footer-inner {
-          width: min(100% - 28px, var(--max));
-        }
-
-        .project-modal {
-          padding: 12px;
-        }
-
-        .modal-dialog {
-          max-height: calc(100vh - 24px);
-        }
-
-        .modal-layout {
-          padding: 18px;
-          gap: 18px;
-        }
-
-        .modal-title {
-          font-size: 1.55rem;
-        }
-
-        .modal-thumbs {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+        .intro-grid {
+          grid-template-columns: 1fr;
         }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          scroll-behavior: auto !important;
-          animation-duration: 1ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 1ms !important;
+      @media (max-width: 620px) {
+        .hero h1 {
+          font-size: 2.4rem;
         }
 
-        .reveal {
-          opacity: 1;
-          transform: none;
+        .section-heading h2 {
+          font-size: 1.86rem;
+        }
+
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-dialog {
+          max-width: 100%;
+          border-radius: 20px;
+          border-bottom: 0;
+        }
+
+        .modal-content {
+          padding: 20px;
+        }
+
+        .modal-gallery {
+          margin: -20px -20px 16px;
+        }
+
+        .modal-header h2 {
+          font-size: 1.4rem;
         }
       }
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#main">Naar inhoud</a>
-
+    <a href="#hero" class="skip-link">Jump to content</a>
     <header class="site-header">
-      <nav class="nav" aria-label="Hoofdnavigatie">
-        <a class="brand" href="#top" aria-label="Lara Requena portfolio">
-          <span class="brand-mark">LR</span>
-          <span class="brand-text">
-            <strong>Lara Requena</strong>
-            <span>IT &amp; Software</span>
-          </span>
+      <nav class="nav">
+        <a href="#hero" class="brand">
+          <span class="brand-mark">L</span>
+          <div class="brand-text">
+            <strong>Lara</strong>
+            <span>Junior IT Developer</span>
+          </div>
         </a>
-
-        <div class="nav-links">
-          <a href="#over">Over mij</a>
-          <a href="#skills">Skills</a>
-          <a href="#projecten">Projecten</a>
-          <a href="#opleiding">Opleiding</a>
+        <nav class="nav-links">
+          <a href="#about">About</a>
+          <a href="#work">Projects</a>
           <a href="#contact">Contact</a>
-        </div>
+        </nav>
       </nav>
     </header>
-
-    <main class="main" id="main">
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-
+    <main class="main">
+      <section class="hero" id="hero">
+        <div class="hero-canvas"></div>
         <div class="hero-layout">
-          <div class="hero-copy reveal">
-            <p class="eyebrow">Student Toegepaste Informatica</p>
-            <h1 id="hero-title">Lara Requena</h1>
-            <p class="hero-lede">
-              Ik werk graag aan digitale systemen waar techniek, samenwerking en duidelijke projectwerking samenkomen.
-              Mijn focus ligt op softwareontwikkeling, mobiele applicaties, webapplicaties en nette documentatie.
-            </p>
-
+          <div class="hero-portrait">
+            <div class="interface-preview">
+              <div class="floating-panel panel-code">
+                <div class="code-top">
+                  <span class="code-dot dot-coral"></span>
+                  <span class="code-dot dot-lemon"></span>
+                  <span class="code-dot dot-teal"></span>
+                </div>
+                <span class="code-line"></span>
+                <span class="code-line"></span>
+                <span class="code-line"></span>
+                <span class="code-line"></span>
+                <span class="code-line"></span>
+              </div>
+              <div class="floating-panel panel-map">
+                <div class="map-grid"></div>
+                <div class="route-line"></div>
+                <span class="map-label">Boston, MA</span>
+              </div>
+              <div class="floating-panel panel-stack">
+                <div class="stack-row">
+                  <span>React</span>
+                  <span class="stack-pill">90%</span>
+                </div>
+                <div class="stack-row">
+                  <span>Node.js</span>
+                  <span class="stack-pill">87%</span>
+                </div>
+                <div class="stack-row">
+                  <span>Figma</span>
+                  <span class="stack-pill">92%</span>
+                </div>
+              </div>
+              <div class="portrait-shell">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=520&h=620&fit=crop" alt="Lara Requena">
+              </div>
+            </div>
+          </div>
+          <div class="hero-copy">
+            <h1 class="eyebrow">💡 Junior IT Developer</h1>
+            <h1>Passionate about creating beautiful digital experiences</h1>
+            <p class="hero-lede">I'm a junior IT developer from Boston with a passion for JavaScript, React, and modern web technologies. I love solving complex problems and turning ideas into reality.</p>
             <div class="hero-actions">
-              <a class="button button-primary" href="#projecten">
-                Bekijk projecten
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
+              <a href="#work" class="button button-primary">
+                <span>View My Work</span>
               </a>
-              <a class="button button-secondary" href="mailto:requena.lara@hotmail.com">
-                Contacteer mij
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
-                  <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
+              <a href="#contact" class="button button-secondary">
+                <span>Get in Touch</span>
               </a>
             </div>
-          </div>
-
-          <div class="interface-preview hero-portrait reveal delay-1" aria-hidden="true">
-            <div class="portrait-shell">
-              <img src="Lara.jpeg" alt="">
+            <div class="hero-facts">
+              <span class="fact">📍 Boston, MA</span>
+              <span class="fact">💼 Available Now</span>
+              <span class="fact">🎓 Self-taught Developer</span>
             </div>
           </div>
         </div>
       </section>
-
-      <section class="section" id="over" aria-labelledby="over-title">
+      <section class="section section-soft" id="about">
         <div class="section-inner">
-          <div class="section-heading reveal">
+          <div class="section-heading">
             <div>
-             
-              <h2 id="over-title">Over mij</h2>
+              <span class="section-kicker">About Me</span>
+              <h2>Bringing ideas to life with code</h2>
             </div>
+            <p>Focused on frontend development and user experience, with a strong foundation in modern web technologies.</p>
           </div>
-
           <div class="intro-grid">
-            <div class="profile-copy reveal delay-1">
-              <p>
-              Creativiteit is altijd mijn natuurlijke manier geweest om mezelf uit te drukken, van kunst en design tot technologie en probleemoplossing.
-            </p>
-            <br>
-          <p>Dankzij mijn achtergrond in de wetenschappen denk ik kritisch en ga ik graag op zoek naar doordachte oplossingen.</p>
-          <br>
-          <p> Momenteel ben ik op zoek naar een omgeving waar ik mezelf verder kan ontwikkelen, nieuwe uitdagingen kan aangaan en creativiteit kan combineren met technologie.</p>
+            <div class="profile-copy">
+              <p>I'm a passionate junior developer with a love for creating intuitive, user-friendly interfaces. My journey into tech started with a curiosity about how things work on the web, and it's evolved into a career pursuit. I specialize in JavaScript and React, and I'm constantly learning and exploring new technologies.</p>
+              <p>When I'm not coding, you can find me exploring design trends, contributing to open-source projects, or working on side projects that push my skills further.</p>
             </div>
-
             <div class="focus-list">
-              <article class="focus-item reveal delay-1">
-                <h3>Softwareontwikkeling</h3>
-                <p>Ervaring met web, mobile, backend en desktopapplicaties binnen IT-projecten.</p>
-              </article>
-              <article class="focus-item reveal delay-2">
-                <h3>Projectwerking</h3>
-                <p>Comfortabel met Git, Scrum, documentatie en samenwerken in teams.</p>
-              </article>
+              <div class="focus-item">
+                <h3>Frontend Focused</h3>
+                <p>Expertise in React, modern CSS, and responsive design principles.</p>
+              </div>
+              <div class="focus-item">
+                <h3>Problem Solver</h3>
+                <p>Love debugging complex issues and finding elegant solutions.</p>
+              </div>
+              <div class="focus-item">
+                <h3>Always Learning</h3>
+                <p>Constantly updating my skills with latest web technologies.</p>
+              </div>
             </div>
           </div>
-
-         
-        </div>
-      </section>
-
-     
-
-      <section class="section" id="projecten" aria-labelledby="projecten-title">
-        <div class="section-inner">
-          <div class="section-heading reveal">
+          <div class="achievement-strip">
+            <div class="achievement-badge">5+</div>
             <div>
-              <p class="section-kicker">Projectervaring</p>
-              <h2 id="projecten-title">Een kijkje in mijn projecten</h2>
+              <h3>Projects Completed</h3>
+              <p>From small prototypes to full-scale applications with real-world impact.</p>
             </div>
-            <p>
-              Van maritieme desktopsoftware tot mobiele apps en fullstack webapplicaties.
-            </p>
-          </div>
-
-          <div class="projects-grid">
-            <article class="project-card reveal" data-project-detail="Stageproject rond een moderne navigatieviewer binnen maritieme software, met focus op architectuur, documentatie en WinUI/.NET ontwikkeling.">
-              <div class="project-gallery" data-gallery aria-label="Afbeeldingen van ECDIS Viewer">
-                <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Vorige afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-track">
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/1.png" alt="Laadscherm van de ECDIS viewer" loading="lazy">
-                    <figcaption>Laadscherm</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/2.png" alt="Hoofdscherm van de ECDIS viewer" loading="lazy">
-                    <figcaption>Hoodscherm</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/3.png" alt="ECDIS viewer met Openstreetmap" loading="lazy">
-                    <figcaption>Openstreetmap</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/4.png" alt="Scheepdetails weergeven" loading="lazy">
-                    <figcaption>Scheepdetails</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/5.png" alt="Netwerk of seriële verbinding maken" loading="lazy">
-                    <figcaption>Detailweergave</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/6.png" alt="Trackpilot" loading="lazy">
-                    <figcaption>Trackpilot</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="ECDIS-project/7.png" alt="ECDIS viewer in nachtmodus" loading="lazy">
-                    <figcaption>Nachtmodus</figcaption>
-                  </figure>
-             
-                </div>
-                <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Volgende afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-dots" aria-hidden="true">
-                  <span class="is-active"></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-              <p class="project-meta">Periskal stage | 2026 - heden</p>
-              <h3>ECDIS Viewer</h3>
-              <p>Zelfstandig ontwikkelen van een navigatieviewer binnen maritieme software.</p>
-              <ul>
-                <li>Nieuwe softwarearchitectuur en technische documentatie.</li>
-                <li>WinUI desktopapplicatie binnen .NET en C#.</li>
-                <li>Focus op duidelijke structuur en onderhoudbaarheid.</li>
-              </ul>
-              <button class="project-open" type="button" data-open-project>
-                Bekijk project
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-            </article>
-
-            <article class="project-card reveal delay-1" data-project-detail="Fullstack webapplicatie waarin frontend, backend en samenwerking samenkomen: Angular aan de voorkant, Java Spring Boot aan de achterkant en projectwerking via Git en Scrum.">
-              <div class="project-gallery" data-gallery aria-label="Afbeeldingen van fullstack project">
-                <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Vorige afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-track">
-                  <figure class="project-slide">
-                    <img src="Fullstack project/1.png" alt="Screenshot van het fullstack project login" loading="lazy">
-                    <figcaption>Login</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Fullstack project/2.png" alt="Screenshot van het fullstack project cursus overzicht" loading="lazy">
-                    <figcaption>Cursus overzicht</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Fullstack project/3.png" alt="Screenshot van het fullstack project cursus volgen" loading="lazy">
-                    <figcaption>Cursus volgen</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Fullstack project/4.png" alt="Screenshot van het fullstack project test volgen" loading="lazy">
-                    <figcaption>Test volgen</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Fullstack project/5.png" alt="Screenshot van het fullstack project certificaat overzicht" loading="lazy">
-                    <figcaption>Certificaat overzicht</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Fullstack project/6.png" alt="Screenshot van het fullstack project opvolgen" loading="lazy">
-                    <figcaption>Opvolgen</figcaption>
-                  </figure>
-                </div>
-                <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Volgende afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-dots" aria-hidden="true">
-                  <span class="is-active"></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-              <p class="project-meta">Fullstack project</p>
-              <h3>Angular &amp; Java Spring Boot</h3>
-              <p>Ontwikkeling van een fullstack applicatie in teamverband.</p>
-              <ul>
-                <li>Angular webapplicatie met Java Spring Boot backend.</li>
-                <li>Samenwerking via Git en Scrum.</li>
-                <li>Frontend- en backendfunctionaliteiten uitgewerkt.</li>
-              </ul>
-              <button class="project-open" type="button" data-open-project>
-                Bekijk project
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-            </article>
-
-            <article class="project-card reveal delay-2" data-project-detail="Mobiele projecten met focus op bruikbare schermen, teamwork en het uitwerken van functionaliteit in verschillende mobiele technologieen.">
-              <div class="project-single-image">
-                <img src="Mobile/1.png" alt="Screenshot van een mobiele app met locaties in Brussel" loading="lazy">
-              </div>
-              <p class="project-meta">Mobile development</p>
-              <h3>Kotlin, Flutter &amp; React Native</h3>
-              <p>Meerdere mobiele applicaties ontwikkeld binnen groepsprojecten.</p>
-              <ul>
-                <li>Android-applicatie met focus op UI en functionaliteit.</li>
-                <li>Cross-platform app in Flutter.</li>
-                <li>React Native project met Git-samenwerking.</li>
-              </ul>
-            </article>
-
-            <article class="project-card reveal delay-3" data-project-detail="Webapplicatie met frontend- en backendfunctionaliteiten, waarin componentgerichte schermen, data en projectmatige samenwerking centraal staan.">
-              <div class="project-gallery" data-gallery aria-label="Afbeeldingen van Blazor en ASP.NET project">
-                <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Vorige afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-track">
-                      <figure class="project-slide">
-                    <img src="Software project/Login.png" alt="Screenshot van het fullstack project login" loading="lazy">
-                    <figcaption>Login</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/1.png" alt="Screenshot van het fullstack project dashboard" loading="lazy">
-                    <figcaption>Dashboard</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/2.png" alt="Screenshot van het fullstack project overzicht" loading="lazy">
-                    <figcaption>Overzicht</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/3.png" alt="Screenshot van weekplanning in fullstack project" loading="lazy">
-                    <figcaption>Weekplanning</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/5.png" alt="Screenshot van profieloverzicht in fullstack project" loading="lazy">
-                    <figcaption>Profieloverzicht</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/6.png" alt="Screenshot van AI chatbot in fullstack project" loading="lazy">
-                    <figcaption>AI chatbot</figcaption>
-                  </figure>
-                  <figure class="project-slide">
-                    <img src="Software project/7.png" alt="QR codes aanmaken" loading="lazy">
-                    <figcaption>QR codes aanmaken</figcaption>
-                  </figure>
-                </div>
-                <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Volgende afbeelding">
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </button>
-                <div class="gallery-dots" aria-hidden="true">
-                  <span class="is-active"></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-              <p class="project-meta">Webapplicatie</p>
-              <h3>Blazor &amp; ASP.NET</h3>
-              <p>Ontwikkeling van een webapplicatie met frontend- en backendfunctionaliteiten.</p>
-              <ul>
-                <li>Componentgerichte UI met Blazor.</li>
-                <li>Backendlogica binnen ASP.NET.</li>
-                <li>Projectmatige aanpak met duidelijke taakverdeling.</li>
-              </ul>
-              <button class="project-open" type="button" data-open-project>
-                Bekijk project
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-            </article>
           </div>
         </div>
       </section>
- <section class="section section-soft" id="skills" aria-labelledby="skills-title">
+      <section class="section" id="skills">
         <div class="section-inner">
-          <div class="section-heading reveal">
+          <div class="section-heading">
             <div>
-              <p class="section-kicker">Vaardigheden</p>
-              <h2 id="skills-title">Wat zijn mijn vaardigheden?</h2>
+              <span class="section-kicker">Skills</span>
+              <h2>My Tech Stack</h2>
             </div>
-            <p>
-              Mijn stack is opgebouwd uit schoolprojecten, groepswerk en stage-ervaring met desktopsoftware.
-            </p>
+            <p>Proficient in a range of modern web technologies and tools.</p>
           </div>
-
           <div class="skills-grid">
-            <article class="skill-group reveal">
-              <h3>Talen</h3>
+            <div class="skill-group">
+              <h3>Frontend</h3>
               <ul class="chip-list">
-                <li class="chip chip-teal">C#</li>
-                <li class="chip chip-teal">Java</li>
-                <li class="chip">JavaScript</li>
-                <li class="chip">TypeScript</li>
-                <li class="chip">SQL</li>
+                <li class="chip chip-teal">JavaScript</li>
+                <li class="chip chip-teal">React</li>
+                <li class="chip chip-teal">CSS3</li>
+                <li class="chip chip-teal">HTML5</li>
               </ul>
-            </article>
-
-            <article class="skill-group reveal delay-1">
-              <h3>Frameworks</h3>
+            </div>
+            <div class="skill-group">
+              <h3>Backend</h3>
               <ul class="chip-list">
-                <li class="chip chip-coral">.NET</li>
-                <li class="chip">Angular</li>
-                <li class="chip">React Native</li>
-                <li class="chip">Spring Boot</li>
-                <li class="chip">ASP.NET</li>
-                <li class="chip">Blazor</li>
+                <li class="chip chip-coral">Node.js</li>
+                <li class="chip chip-coral">Express</li>
+                <li class="chip chip-coral">MongoDB</li>
+                <li class="chip chip-coral">SQL</li>
               </ul>
-            </article>
-
-            <article class="skill-group reveal delay-2">
+            </div>
+            <div class="skill-group">
               <h3>Tools</h3>
               <ul class="chip-list">
                 <li class="chip chip-lemon">Git</li>
-                <li class="chip">Linux</li>
-                <li class="chip">Docker</li>
-                <li class="chip">Scrum</li>
+                <li class="chip chip-lemon">Figma</li>
+                <li class="chip chip-lemon">VS Code</li>
+                <li class="chip chip-lemon">Webpack</li>
               </ul>
-            </article>
-
-            <article class="skill-group reveal delay-3">
-              <h3>Databases</h3>
+            </div>
+            <div class="skill-group">
+              <h3>Other</h3>
               <ul class="chip-list">
-                <li class="chip chip-teal">MySQL</li>
-                <li class="chip">MS SQL</li>
-                <li class="chip">MongoDB</li>
+                <li class="chip">REST APIs</li>
+                <li class="chip">Agile</li>
+                <li class="chip">Testing</li>
+                <li class="chip">Responsive Design</li>
               </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-soft" id="work">
+        <div class="section-inner">
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">My Work</span>
+              <h2>Featured Projects</h2>
+            </div>
+            <p>A selection of projects that showcase my skills and passion for web development.</p>
+          </div>
+          <div class="projects-grid">
+            <article class="project-card">
+              <div class="project-gallery">
+                <div class="gallery-track">
+                  <figure class="project-slide">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop" alt="Project 1 - Screenshot 1">
+                  </figure>
+                  <figure class="project-slide">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop" alt="Project 1 - Screenshot 2">
+                  </figure>
+                </div>
+                <button class="gallery-button gallery-prev" aria-label="Previous image">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <button class="gallery-button gallery-next" aria-label="Next image">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+                <div class="gallery-dots">
+                  <span class="is-active"></span>
+                  <span></span>
+                </div>
+              </div>
+              <h3>E-Commerce Platform</h3>
+              <span class="project-meta">React • Node.js • MongoDB</span>
+              <p>A full-stack e-commerce platform with real-time inventory management and payment integration using Stripe.</p>
+              <ul>
+                <li>React frontend with Redux state management</li>
+                <li>RESTful API with Node.js and Express</li>
+                <li>MongoDB database with Mongoose</li>
+              </ul>
+              <button class="project-open" aria-label="Open project details">
+                <span>View Project</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"></path>
+                </svg>
+              </button>
+            </article>
+            <article class="project-card">
+              <div class="project-gallery">
+                <div class="gallery-track">
+                  <figure class="project-slide">
+                    <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop" alt="Project 2 - Screenshot 1">
+                  </figure>
+                </div>
+              </div>
+              <h3>Task Management App</h3>
+              <span class="project-meta">React • Firebase</span>
+              <p>A collaborative task management application with real-time synchronization and team features.</p>
+              <ul>
+                <li>React with Context API for state management</li>
+                <li>Firebase for real-time database</li>
+                <li>Material-UI for component library</li>
+              </ul>
+              <button class="project-open" aria-label="Open project details">
+                <span>View Project</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"></path>
+                </svg>
+              </button>
+            </article>
+            <article class="project-card">
+              <div class="project-single-image">
+                <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop" alt="Project 3">
+              </div>
+              <h3>Weather Dashboard</h3>
+              <span class="project-meta">JavaScript • API</span>
+              <p>Real-time weather application with location services and detailed forecasts.</p>
+              <ul>
+                <li>Vanilla JavaScript with async/await</li>
+                <li>OpenWeather API integration</li>
+                <li>Responsive design for all devices</li>
+              </ul>
+              <button class="project-open" aria-label="Open project details">
+                <span>View Project</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"></path>
+                </svg>
+              </button>
+            </article>
+            <article class="project-card">
+              <div class="project-single-image">
+                <img src="https://images.unsplash.com/photo-1633356122544-f134324ef6db?w=600&h=400&fit=crop" alt="Project 4">
+              </div>
+              <h3>Personal Blog</h3>
+              <span class="project-meta">Next.js • MDX • Vercel</span>
+              <p>A modern blog platform with markdown support and dark mode.</p>
+              <ul>
+                <li>Next.js for static site generation</li>
+                <li>MDX for rich markdown content</li>
+                <li>Deployed on Vercel</li>
+              </ul>
+              <button class="project-open" aria-label="Open project details">
+                <span>View Project</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"></path>
+                </svg>
+              </button>
             </article>
           </div>
         </div>
       </section>
-      <section class="section section-soft" id="opleiding" aria-labelledby="opleiding-title">
+      <section class="section" id="contact">
         <div class="section-inner">
-          <div class="section-heading reveal">
+          <div class="section-heading">
             <div>
-              <p class="section-kicker">Opleidingen &amp; talen</p>
-              <h2 id="opleiding-title">Mijn opleidingen</h2>
+              <span class="section-kicker">Get in Touch</span>
+              <h2>Let's work together</h2>
             </div>
-         
+            <p>I'm always interested in hearing about new projects and opportunities.</p>
           </div>
-
-          <div class="education-layout">
-            <div class="timeline">
-              <article class="timeline-item reveal">
-                <div class="timeline-date">2023 - heden</div>
-                <div>
-                  <h3>Bachelor Toegepaste Informatica: IT &amp; Software</h3>
-                </div>
-              </article>
-                <article class="timeline-item reveal">
-                <div class="timeline-date">2021 - 2022</div>
-                <div>
-                  <h3>Bachelor Biomedische Wetenschappen</h3>
-                </div>
-              </article>
-
-              <article class="timeline-item reveal delay-1">
-                <div class="timeline-date">2017 - 2021</div>
-                <div>
-                  <h3>Diploma secundair onderwijs: Techniek-wetenschappen</h3>
-                </div>
-              </article>
+          <div class="focus-list">
+            <div class="contact-card">
+              <h3>Email</h3>
+              <p><a href="mailto:hello@laraverdena.com">hello@laraverdena.com</a></p>
             </div>
-
-            <aside class="language-panel reveal delay-2" aria-label="Talenkennis">
-              <h3>Talen</h3>
-              <ul class="language-list">
-                <li class="language-row">
-                  <div class="language-top">
-                    <strong>Nederlands</strong>
-                    <span>Moedertaal</span>
-                  </div>
-                  <span class="language-bar"><span class="language-fill native"></span></span>
-                </li>
-                <li class="language-row">
-                  <div class="language-top">
-                    <strong>Engels</strong>
-                    <span>Zeer goed</span>
-                  </div>
-                  <span class="language-bar"><span class="language-fill good"></span></span>
-                </li>
-                <li class="language-row">
-                  <div class="language-top">
-                    <strong>Spaans</strong>
-                    <span>Basis</span>
-                  </div>
-                  <span class="language-bar"><span class="language-fill basic"></span></span>
-                </li>
-              </ul>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact" aria-labelledby="contact-title">
-        <div class="section-inner">
-          <div class="contact-layout">
-            <div class="reveal">
-              <p class="section-kicker">Contact</p>
-              <h2 id="contact-title">Interesse? Let's Talk!</h2>
-              <p class="contact-lede">
-                Ik sta open voor opportuniteiten waarin ik verder
-                kan groeien als software developer en mee te bouwen aan softwareoplossingen!
-              </p>
-
-              <div class="contact-actions">
-                <a class="button button-primary" href="mailto:requena.lara@hotmail.com">
-                  Email
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
-                    <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </a>
-                <a class="button button-secondary" href="./CV%20Lara%20Requena.pdf">
-                  CV
-                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4v10m0 0 4-4m-4 4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-                  </svg>
-                </a>
-              </div>
+            <div class="contact-card">
+              <h3>LinkedIn</h3>
+              <p><a href="https://linkedin.com/in/lara-requena" target="_blank" rel="noopener">linkedin.com/in/lara-requena</a></p>
             </div>
-
-            <aside class="contact-card reveal delay-1">
-              <h3>Gegevens</h3>
-              <ul class="contact-list">
-                <li>
-                  <a href="mailto:requena.lara@hotmail.com">
-                    <strong>Email</strong>
-                    <span>requena.lara@hotmail.com</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:+32474044737">
-                    <strong>Telefoon</strong>
-                    <span>0474 04 47 37</span>
-                  </a>
-                </li>
-                <li>
-                  <span>
-                    <strong>Woonplaats</strong>
-                    <span>Aartselaar</span>
-                  </span>
-                </li>
-                <li>
-                  <span>
-                    <strong>Rijbewijs</strong>
-                    <span>B</span>
-                  </span>
-                </li>
-              </ul>
-            </aside>
+            <div class="contact-card">
+              <h3>GitHub</h3>
+              <p><a href="https://github.com/lararqna" target="_blank" rel="noopener">github.com/lararqna</a></p>
+            </div>
           </div>
         </div>
       </section>
     </main>
-
-    <div class="project-modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
-      <div class="modal-backdrop" data-close-modal></div>
-      <div class="modal-dialog">
-        <button class="modal-close" type="button" data-close-modal aria-label="Sluit project">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-          </svg>
-        </button>
-
-        <div class="modal-layout">
-          <div class="modal-gallery">
-            <div class="modal-image-frame">
-              <img class="modal-image" id="modalImage" alt="">
-              <button class="modal-nav modal-prev" type="button" data-modal-prev aria-label="Vorige afbeelding">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-              <button class="modal-nav modal-next" type="button" data-modal-next aria-label="Volgende afbeelding">
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-                  <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-            </div>
-            <p class="modal-caption" id="modalCaption"></p>
-            <div class="modal-thumbs" id="modalThumbs" aria-label="Projectafbeeldingen"></div>
-          </div>
-
-          <div class="modal-content">
-            <p class="modal-meta" id="modalMeta"></p>
-            <h2 class="modal-title" id="modalTitle"></h2>
-            <p class="modal-description" id="modalDescription"></p>
-            <ul class="modal-points" id="modalPoints"></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <span>Lara Requena - Junior IT &amp; Software</span>
-        <span>Portfolio</span>
-      </div>
-    </footer>
-
     <script>
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Gallery functionality
+      const galleries = document.querySelectorAll('.project-gallery');
+      galleries.forEach(gallery => {
+        const track = gallery.querySelector('.gallery-track');
+        const prevBtn = gallery.querySelector('.gallery-prev');
+        const nextBtn = gallery.querySelector('.gallery-next');
+        const dots = gallery.querySelectorAll('.gallery-dots span');
+        let currentIndex = 0;
+        const slides = gallery.querySelectorAll('.project-slide');
+        const totalSlides = slides.length;
 
-      const revealItems = document.querySelectorAll(".reveal");
-      if ("IntersectionObserver" in window && !reducedMotion) {
-        const revealObserver = new IntersectionObserver(
-          entries => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                revealObserver.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.16 }
-        );
-
-        revealItems.forEach(item => revealObserver.observe(item));
-      } else {
-        revealItems.forEach(item => item.classList.add("is-visible"));
-      }
-
-      document.querySelectorAll("[data-gallery]").forEach(gallery => {
-        const track = gallery.querySelector(".gallery-track");
-        const slides = [...gallery.querySelectorAll(".project-slide")];
-        const dotsWrap = gallery.querySelector(".gallery-dots");
-        const previousButton = gallery.querySelector("[data-gallery-prev]");
-        const nextButton = gallery.querySelector("[data-gallery-next]");
-        let activeIndex = 0;
-
-        dotsWrap.innerHTML = slides.map(() => "<span></span>").join("");
-        const dots = [...dotsWrap.querySelectorAll("span")];
-
-        function setSlide(nextIndex) {
-          activeIndex = (nextIndex + slides.length) % slides.length;
-          track.style.transform = `translateX(-${activeIndex * 100}%)`;
-          dots.forEach((dot, index) => dot.classList.toggle("is-active", index === activeIndex));
+        function updateGallery() {
+          track.style.transform = `translateX(-${currentIndex * 100}%)`;
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('is-active', index === currentIndex);
+          });
         }
 
-        previousButton.addEventListener("click", () => setSlide(activeIndex - 1));
-        nextButton.addEventListener("click", () => setSlide(activeIndex + 1));
-        setSlide(0);
-      });
-
-      const projectModal = document.getElementById("projectModal");
-      const modalImage = document.getElementById("modalImage");
-      const modalCaption = document.getElementById("modalCaption");
-      const modalThumbs = document.getElementById("modalThumbs");
-      const modalMeta = document.getElementById("modalMeta");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalDescription = document.getElementById("modalDescription");
-      const modalPoints = document.getElementById("modalPoints");
-      const modalPrevious = projectModal.querySelector("[data-modal-prev]");
-      const modalNext = projectModal.querySelector("[data-modal-next]");
-      const modalClose = projectModal.querySelector(".modal-close");
-      let modalImages = [];
-      let modalIndex = 0;
-      let lastFocusedElement = null;
-
-      function getProjectImages(card) {
-        return [...card.querySelectorAll(".project-slide")].map(slide => {
-          const image = slide.querySelector("img");
-          const caption = slide.querySelector("figcaption");
-
-          if (!image) {
-            return null;
-          }
-
-          return {
-            src: image.getAttribute("src"),
-            alt: image.getAttribute("alt") || "",
-            caption: caption ? caption.textContent.trim() : ""
-          };
-        }).filter(Boolean);
-      }
-
-      function setModalSlide(nextIndex) {
-        if (!modalImages.length) return;
-
-        modalIndex = (nextIndex + modalImages.length) % modalImages.length;
-        const activeImage = modalImages[modalIndex];
-        modalImage.src = activeImage.src;
-        modalImage.alt = activeImage.alt;
-        modalCaption.textContent = `${activeImage.caption || "Projectafbeelding"} (${modalIndex + 1}/${modalImages.length})`;
-        [...modalThumbs.children].forEach((thumb, index) => {
-          thumb.classList.toggle("is-active", index === modalIndex);
-        });
-      }
-
-      function openProject(card, startIndex = 0) {
-        modalImages = getProjectImages(card);
-        if (!modalImages.length) return;
-
-        lastFocusedElement = document.activeElement;
-        modalMeta.textContent = card.querySelector(".project-meta")?.textContent.trim() || "";
-        modalTitle.textContent = card.querySelector("h3")?.textContent.trim() || "Project";
-        modalDescription.textContent = card.dataset.projectDetail || card.querySelector("p:not(.project-meta)")?.textContent.trim() || "";
-        modalPoints.innerHTML = "";
-
-        card.querySelectorAll("ul li").forEach(item => {
-          const point = document.createElement("li");
-          point.textContent = item.textContent.trim();
-          modalPoints.appendChild(point);
+        prevBtn?.addEventListener('click', () => {
+          currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+          updateGallery();
         });
 
-        modalThumbs.innerHTML = "";
-        modalImages.forEach((image, index) => {
-          const thumb = document.createElement("button");
-          thumb.className = "modal-thumb";
-          thumb.type = "button";
-          thumb.setAttribute("aria-label", `Toon afbeelding ${index + 1}`);
-          const thumbImage = document.createElement("img");
-          thumbImage.src = image.src;
-          thumbImage.alt = "";
-          thumb.appendChild(thumbImage);
-          thumb.addEventListener("click", () => setModalSlide(index));
-          modalThumbs.appendChild(thumb);
+        nextBtn?.addEventListener('click', () => {
+          currentIndex = (currentIndex + 1) % totalSlides;
+          updateGallery();
         });
 
-        modalPrevious.disabled = modalImages.length < 2;
-        modalNext.disabled = modalImages.length < 2;
-        projectModal.hidden = false;
-        document.body.classList.add("modal-open");
-        setModalSlide(startIndex);
-        modalClose.focus();
-      }
-
-      function closeProject() {
-        projectModal.hidden = true;
-        document.body.classList.remove("modal-open");
-        modalImage.removeAttribute("src");
-
-        if (lastFocusedElement) {
-          lastFocusedElement.focus();
-        }
-      }
-
-      document.querySelectorAll(".project-card").forEach(card => {
-        card.querySelector("[data-open-project]")?.addEventListener("click", () => openProject(card));
-
-        card.addEventListener("click", event => {
-          if (event.target.closest("button, a")) return;
-          const clickedSlide = event.target.closest(".project-slide");
-          const slides = [...card.querySelectorAll(".project-slide")];
-          openProject(card, clickedSlide ? slides.indexOf(clickedSlide) : 0);
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateGallery();
+          });
         });
       });
 
-      projectModal.querySelectorAll("[data-close-modal]").forEach(element => {
-        element.addEventListener("click", closeProject);
+      // Modal functionality
+      const projectCards = document.querySelectorAll('.project-open');
+      const modal = document.querySelector('.project-modal');
+      const modalClose = document.querySelector('.modal-close');
+
+      projectCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal?.removeAttribute('hidden');
+          document.body.classList.add('modal-open');
+        });
       });
 
-      modalPrevious.addEventListener("click", () => setModalSlide(modalIndex - 1));
-      modalNext.addEventListener("click", () => setModalSlide(modalIndex + 1));
-
-      window.addEventListener("keydown", event => {
-        if (projectModal.hidden) return;
-
-        if (event.key === "Escape") {
-          closeProject();
-        }
-
-        if (event.key === "ArrowLeft") {
-          setModalSlide(modalIndex - 1);
-        }
-
-        if (event.key === "ArrowRight") {
-          setModalSlide(modalIndex + 1);
-        }
+      modalClose?.addEventListener('click', () => {
+        modal?.setAttribute('hidden', '');
+        document.body.classList.remove('modal-open');
       });
 
-      const canvas = document.getElementById("heroCanvas");
-      const ctx = canvas.getContext("2d");
-      let width = 0;
-      let height = 0;
-      let points = [];
-
-      function resizeCanvas() {
-        const ratio = window.devicePixelRatio || 1;
-        width = canvas.offsetWidth;
-        height = canvas.offsetHeight;
-        canvas.width = Math.floor(width * ratio);
-        canvas.height = Math.floor(height * ratio);
-        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-        const pointCount = Math.max(18, Math.floor(width / 58));
-        points = Array.from({ length: pointCount }, (_, index) => ({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.34,
-          vy: (Math.random() - 0.5) * 0.34,
-          color: index % 3 === 0 ? "#171717" : index % 3 === 1 ? "#6f6f6f" : "#a5a5a5"
-        }));
-      }
-
-      function drawNetwork() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.lineWidth = 1;
-
-        for (let i = 0; i < points.length; i += 1) {
-          const point = points[i];
-
-          if (!reducedMotion) {
-            point.x += point.vx;
-            point.y += point.vy;
-          }
-
-          if (point.x < 0 || point.x > width) point.vx *= -1;
-          if (point.y < 0 || point.y > height) point.vy *= -1;
-
-          for (let j = i + 1; j < points.length; j += 1) {
-            const next = points[j];
-            const distance = Math.hypot(point.x - next.x, point.y - next.y);
-
-            if (distance < 155) {
-              ctx.strokeStyle = `rgba(29, 36, 51, ${0.09 - distance / 2400})`;
-              ctx.beginPath();
-              ctx.moveTo(point.x, point.y);
-              ctx.lineTo(next.x, next.y);
-              ctx.stroke();
-            }
-          }
-
-          ctx.fillStyle = point.color;
-          ctx.globalAlpha = 0.32;
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 3.2, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = 1;
-        }
-
-        if (!reducedMotion) {
-          requestAnimationFrame(drawNetwork);
-        }
-      }
-
-      resizeCanvas();
-      drawNetwork();
-      window.addEventListener("resize", () => {
-        resizeCanvas();
-        if (reducedMotion) {
-          drawNetwork();
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal?.hidden) {
+          modal?.setAttribute('hidden', '');
+          document.body.classList.remove('modal-open');
         }
       });
     </script>
